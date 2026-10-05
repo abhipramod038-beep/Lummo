@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lummo Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased pb-20">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-orange-500/20">L</div>
+        <div>
+          <h1 class="text-xl font-black tracking-tight text-gray-900 leading-none">Lummo<span class="text-orange-500">Store</span></h1>
+          <p id="t-tagline" class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-0.5">Ettavum Nalla Deals</p>
+        </div>
+      </div>
+
+      <!-- Language Selector & Chat Buttons -->
+      <div class="flex items-center gap-2">
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="text-xs border border-gray-300 rounded-lg px-2 py-1 bg-white outline-none focus:ring-1 focus:ring-orange-500 font-medium">
+          <option value="manglish" selected>Manglish</option>
+          <option value="ml">മലയാളം</option>
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+        <a href="https://wa.me/918848346481?text=Hi%20Lummo%20Store" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1">
+          <i class="fab fa-whatsapp"></i> 1
+        </a>
+        <a href="https://wa.me/919037106309?text=Hi%20Lummo%20Store" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1">
+          <i class="fab fa-whatsapp"></i> 2
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <div class="max-w-6xl mx-auto px-4 mt-4">
+    <div class="rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 p-5 text-white shadow-lg">
+      <span id="t-badge" class="inline-block bg-black/20 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-2 uppercase tracking-wider">Free Delivery Undu</span>
+      <h2 id="t-bannerTitle" class="text-2xl font-black leading-tight">Trending Gadgets & Accessories</h2>
+      <p id="t-bannerSub" class="text-white/90 text-xs mt-1">Cash on Delivery-um direct WhatsApp ordering-um labhyamanu!</p>
+    </div>
+  </div>
+
+  <!-- Product Catalog -->
+  <main class="max-w-6xl mx-auto px-4 mt-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 id="t-featTitle" class="text-lg font-bold text-gray-900">🔥 Pradhana Products</h3>
+      <span id="t-verified" class="text-xs text-gray-400">Urapulla Deals</span>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="productGrid"></div>
+
+    <!-- Reviews Section -->
+    <section class="mt-12 border-t pt-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 id="t-revTitle" class="text-lg font-bold text-gray-900">⭐ Customer Reviews</h3>
+          <p id="t-revSub" class="text-xs text-gray-500">Saadhanam vaangiyavarude abhiprayangal</p>
+        </div>
+        <button id="t-addRevBtn" onclick="toggleReviewForm()" class="bg-orange-100 hover:bg-orange-200 text-orange-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">
+          + Review Ezhuthuka
+        </button>
+      </div>
+
+      <!-- Add Review Form -->
+      <div id="reviewFormContainer" class="hidden bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6">
+        <h4 id="t-writeRev" class="text-sm font-bold text-gray-800 mb-2">Ningale Abhiprayam Ezhuthuka</h4>
+        <form onsubmit="submitReview(event)" class="space-y-3">
+          <div>
+            <label id="t-lblRevName" class="block text-xs font-semibold text-gray-600 mb-1">Ningale Peru</label>
+            <input type="text" id="revName" required placeholder="Peru" class="w-full text-xs border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500">
+          </div>
+          <div>
+            <label id="t-lblRevRate" class="block text-xs font-semibold text-gray-600 mb-1">Rating</label>
+            <div class="flex gap-1 text-amber-400 text-base" id="starSelector">
+              <i class="fas fa-star cursor-pointer" onclick="setRating(1)"></i>
+              <i class="fas fa-star cursor-pointer" onclick="setRating(2)"></i>
+              <i class="fas fa-star cursor-pointer" onclick="setRating(3)"></i>
+              <i class="fas fa-star cursor-pointer" onclick="setRating(4)"></i>
+              <i class="fas fa-star cursor-pointer" onclick="setRating(5)"></i>
+            </div>
+          </div>
+          <div>
+            <label id="t-lblRevComm" class="block text-xs font-semibold text-gray-600 mb-1">Abhiprayam</label>
+            <textarea id="revComment" required rows="2" placeholder="..." class="w-full text-xs border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-1 focus:ring-orange-500"></textarea>
+          </div>
+          <button type="submit" id="t-postRevBtn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs px-4 py-2 rounded-lg transition">Review Ayakkuka</button>
+        </form>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="reviewsContainer"></div>
+    </section>
+  </main>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-md w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 border-b pb-3">
+        <h3 id="t-modalTitle" class="font-bold text-lg text-gray-900">Order Poorthiyaakkuka</h3>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+      </div>
+      
+      <div class="bg-orange-50 p-3 rounded-xl mb-4 border border-orange-100 flex items-center gap-3">
+        <img id="modalProductImg" class="w-14 h-14 object-cover rounded-lg bg-white" src="" alt="Product">
+        <div>
+          <h4 id="modalProductName" class="text-sm font-bold text-gray-800 line-clamp-1"></h4>
+          <p id="modalProductPrice" class="text-orange-600 font-extrabold text-sm"></p>
+        </div>
+      </div>
+
+      <form id="orderForm" onsubmit="return false;" class="space-y-3">
+        <div>
+          <label id="t-lblCustName" class="block text-xs font-semibold text-gray-600 mb-1">Full Name</label>
+          <input type="text" id="custName" required placeholder="Name" class="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none">
+        </div>
+        <div>
+          <label id="t-lblCustPhone" class="block text-xs font-semibold text-gray-600 mb-1">Phone Number</label>
+          <input type="tel" id="custPhone" required placeholder="Phone" class="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none">
+        </div>
+        <div>
+          <label id="t-lblCustAddr" class="block text-xs font-semibold text-gray-600 mb-1">Delivery Address & Pincode</label>
+          <textarea id="custAddress" required rows="2" placeholder="Address" class="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+        </div>
+
+        <p id="t-chooseLine" class="text-xs font-bold text-gray-500 pt-2 text-center">Order ayakkan WhatsApp line theranjedukkuka:</p>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="sendOrder('918848346481')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 px-2 rounded-xl shadow flex items-center justify-center gap-1.5 text-xs transition">
+            <i class="fab fa-whatsapp text-sm"></i> Line 1
+          </button>
+          <button type="button" onclick="sendOrder('919037106309')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-2 rounded-xl shadow flex items-center justify-center gap-1.5 text-xs transition">
+            <i class="fab fa-whatsapp text-sm"></i> Line 2
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      manglish: {
+        tagline: "Ettavum Nalla Deals",
+        badge: "Free Delivery Undu",
+        bannerTitle: "Trending Gadgets & Accessories",
+        bannerSub: "Cash on Delivery-um direct WhatsApp ordering-um labhyamanu!",
+        featTitle: "🔥 Pradhana Products",
+        verified: "Urapulla Deals",
+        orderBtn: "Order Cheyyuka",
+        revTitle: "⭐ Customer Reviews",
+        revSub: "Saadhanam vaangiyavarude abhiprayangal",
+        addRevBtn: "+ Review Ezhuthuka",
+        writeRev: "Ningale Abhiprayam Ezhuthuka",
+        lblRevName: "Ningale Peru",
+        lblRevRate: "Rating",
+        lblRevComm: "Abhiprayam",
+        postRevBtn: "Review Ayakkuka",
+        modalTitle: "Order Poorthiyaakkuka",
+        lblCustName: "Full Name",
+        lblCustPhone: "Phone Number",
+        lblCustAddr: "Delivery Address & Pincode",
+        chooseLine: "Order ayakkan WhatsApp line theranjedukkuka:"
+      },
+      ml: {
+        tagline: "ഏറ്റവും മികച്ച ഓഫറുകൾ",
+        badge: "സൗജന്യ ഡെലിവറി ലഭ്യമാണ്",
+        bannerTitle: "ട്രെൻഡിംഗ് ഗാഡ്‌ജെറ്റുകൾ & ആക്‌സസറികൾ",
+        bannerSub: "ക്യാഷ് ഓൺ ഡെലിവറിയും നേരിട്ടുള്ള വാട്സാപ്പ് ഓർഡറിംഗും ലഭ്യമാണ്!",
+        featTitle: "🔥 പ്രധാന ഉൽപ്പന്നങ്ങൾ",
+        verified: "ഉറപ്പുള്ള ഡീലുകൾ",
+        orderBtn: "ഓർഡർ ചെയ്യൂ",
+        revTitle: "⭐ കസ്റ്റമർ റിവ്യൂകൾ",
+        revSub: "യഥാർത്ഥ ഉപഭോക്താക്കളുടെ അഭിപ്രായങ്ങൾ",
+        addRevBtn: "+ റിവ്യൂ ചേർക്കൂ",
+        writeRev: "നിങ്ങളുടെ അഭിപ്രായം എഴുതൂ",
+        lblRevName: "നിങ്ങളുടെ പേര്",
+        lblRevRate: "റേറ്റിംഗ്",
+        lblRevComm: "അഭിപ്രായം",
+        postRevBtn: "പോസ്റ്റ് ചെയ്യൂ",
+        modalTitle: "ഓർഡർ പൂർത്തിയാക്കൂ",
+        lblCustName: "മുഴുവൻ പേര്",
+        lblCustPhone: "ഫോൺ നമ്പർ",
+        lblCustAddr: "വിലാസവും പിൻകോഡും",
+        chooseLine: "ഓർഡർ ചെയ്യാൻ വാട്സാപ്പ് നമ്പർ തിരഞ്ഞെടുക്കുക:"
+      },
+      en: {
+        tagline: "Best Deals Online",
+        badge: "Free Delivery Available",
+        bannerTitle: "Trending Gadgets & Accessories",
+        bannerSub: "Cash on Delivery & Direct WhatsApp Ordering Available!",
+        featTitle: "🔥 Featured Products",
+        verified: "Verified Deals",
+        orderBtn: "Order Now",
+        revTitle: "⭐ Customer Reviews",
+        revSub: "Real feedback from verified buyers",
+        addRevBtn: "+ Add Review",
+        writeRev: "Write Your Review",
+        lblRevName: "Your Name",
+        lblRevRate: "Rating",
+        lblRevComm: "Comment",
+        postRevBtn: "Post Review",
+        modalTitle: "Complete Your Order",
+        lblCustName: "Your Full Name",
+        lblCustPhone: "Phone Number",
+        lblCustAddr: "Delivery Address & Pincode",
+        chooseLine: "Choose WhatsApp contact to place order:"
+      },
+      hi: {
+        tagline: "बेस्ट डील्स ऑनलाइन",
+        badge: "फ्री डिलीवरी उपलब्ध",
+        bannerTitle: "ट्रेंडिंग गैजेट्स और एक्सेसरीज़",
+        bannerSub: "कैश ऑन डिलीवरी और सीधा व्हाट्सएप ऑर्डर उपलब्ध!",
+        featTitle: "🔥 चुनिंदा प्रोडक्ट्स",
+        verified: "सत्यापित डील्स",
+        orderBtn: "अभी ऑर्डर करें",
+        revTitle: "⭐ ग्राहक समीक्षा",
+        revSub: "असली खरीदारों की राय",
+        addRevBtn: "+ समीक्षा जोड़ें",
+        writeRev: "अपनी समीक्षा लिखें",
+        lblRevName: "आपका नाम",
+        lblRevRate: "रेटिंग",
+        lblRevComm: "टिप्पणी",
+        postRevBtn: "सबमिट करें",
+        modalTitle: "अपना ऑर्डर पूरा करें",
+        lblCustName: "पूरा नाम",
+        lblCustPhone: "फ़ोन नंबर",
+        lblCustAddr: "डिलीवरी का पता और पिनकोड",
+        chooseLine: "ऑर्डर के लिए व्हाट्सएप चुनें:"
+      }
+    };
+
+    let curLang = "manglish";
+
+    function changeLanguage(lang) {
+      curLang = lang;
+      const t = translations[lang];
+      document.getElementById("t-tagline").innerText = t.tagline;
+      document.getElementById("t-badge").innerText = t.badge;
+      document.getElementById("t-bannerTitle").innerText = t.bannerTitle;
+      document.getElementById("t-bannerSub").innerText = t.bannerSub;
+      document.getElementById("t-featTitle").innerText = t.featTitle;
+      document.getElementById("t-verified").innerText = t.verified;
+      document.getElementById("t-revTitle").innerText = t.revTitle;
+      document.getElementById("t-revSub").innerText = t.revSub;
+      document.getElementById("t-addRevBtn").innerText = t.addRevBtn;
+      document.getElementById("t-writeRev").innerText = t.writeRev;
+      document.getElementById("t-lblRevName").innerText = t.lblRevName;
+      document.getElementById("t-lblRevRate").innerText = t.lblRevRate;
+      document.getElementById("t-lblRevComm").innerText = t.lblRevComm;
+      document.getElementById("t-postRevBtn").innerText = t.postRevBtn;
+      document.getElementById("t-modalTitle").innerText = t.modalTitle;
+      document.getElementById("t-lblCustName").innerText = t.lblCustName;
+      document.getElementById("t-lblCustPhone").innerText = t.lblCustPhone;
+      document.getElementById("t-lblCustAddr").innerText = t.lblCustAddr;
+      document.getElementById("t-chooseLine").innerText = t.chooseLine;
+      renderProducts();
+    }
+
+    const products = [
+      { id: 1, name: "Magnetic Wireless Earbuds TWS", price: "499", originalPrice: "1499", image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop&q=60" },
+      { id: 2, name: "Smart Watch HD Display", price: "899", originalPrice: "2499", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60" },
+      { id: 3, name: "RGB Portable Bluetooth Speaker", price: "599", originalPrice: "1299", image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&auto=format&fit=crop&q=60" },
+      { id: 4, name: "Neckband Headset Extra Bass", price: "399", originalPrice: "999", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60" }
+    ];
+
+    let defaultReviews = [
+      { name: "Akhil Raj", rating: 5, comment: "Super fast delivery! Product quality is awesome for this price.", date: "2 days ago" },
+      { name: "Sreerag", rating: 5, comment: "Order cheythu 3rd day thanne kitti. Sound quality poliyaanu!", date: "1 week ago" }
+    ];
+
+    let currentRating = 5;
+    let selectedProduct = null;
+
+    function renderProducts() {
+      const btnText = translations[curLang].orderBtn;
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = products.map(prod => `
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
+          <div class="relative bg-gray-50 aspect-square">
+            <img src="${prod.image}" alt="${prod.name}" class="w-full h-full object-cover">
+            <span class="absolute top-2 left-2 bg-rose-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">SALE</span>
+          </div>
+          <div class="p-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-xs sm:text-sm text-gray-800 line-clamp-2">${prod.name}</h4>
+              <div class="flex items-baseline gap-1.5 mt-2">
+                <span class="text-base font-extrabold text-orange-600">₹${prod.price}</span>
+                <span class="text-xs text-gray-400 line-through">₹${prod.originalPrice}</span>
+              </div>
+            </div>
+            <button onclick="openModal(${prod.id})" class="w-full mt-3 bg-orange-500 hover:bg-orange-600 active:scale-95 text-white text-xs font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+              <i class="fas fa-shopping-bag"></i> ${btnText}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderReviews() {
+      const container = document.getElementById("reviewsContainer");
+      const storedReviews = JSON.parse(localStorage.getItem("lummo_reviews")) || defaultReviews;
+      container.innerHTML = storedReviews.map(r => `
+        <div class="bg-white p-3.5 rounded-xl border border-gray-100 shadow-sm">
+          <div class="flex justify-between items-center mb-1">
+            <h5 class="text-xs font-bold text-gray-800">${r.name}</h5>
+            <span class="text-[10px] text-gray-400">${r.date || "Just now"}</span>
+          </div>
+          <div class="text-amber-400 text-xs mb-1.5">
+            ${Array.from({length: 5}, (_, i) => `<i class="${i < r.rating ? 'fas' : 'far'} fa-star"></i>`).join('')}
+          </div>
+          <p class="text-xs text-gray-600 leading-relaxed">${r.comment}</p>
+        </div>
+      `).join('');
+    }
+
+    function toggleReviewForm() {
+      document.getElementById("reviewFormContainer").classList.toggle("hidden");
+    }
+
+    function setRating(val) {
+      currentRating = val;
+      const stars = document.getElementById("starSelector").children;
+      for (let i = 0; i < 5; i++) {
+        stars[i].className = i < val ? "fas fa-star cursor-pointer" : "far fa-star cursor-pointer";
+      }
+    }
+
+    function submitReview(e) {
+      e.preventDefault();
+      const name = document.getElementById("revName").value.trim();
+      const comment = document.getElementById("revComment").value.trim();
+      if (!name || !comment) return;
+
+      const storedReviews = JSON.parse(localStorage.getItem("lummo_reviews")) || defaultReviews;
+      storedReviews.unshift({ name, rating: currentRating, comment, date: "Just now" });
+      localStorage.setItem("lummo_reviews", JSON.stringify(storedReviews));
+
+      document.getElementById("revName").value = '';
+      document.getElementById("revComment").value = '';
+      toggleReviewForm();
+      renderReviews();
+    }
+
+    function openModal(id) {
+      selectedProduct = products.find(p => p.id === id);
+      document.getElementById("modalProductName").innerText = selectedProduct.name;
+      document.getElementById("modalProductPrice").innerText = "₹" + selectedProduct.price;
+      document.getElementById("modalProductImg").src = selectedProduct.image;
+      document.getElementById("checkoutModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("checkoutModal").classList.add("hidden");
+    }
+
+    function sendOrder(targetNumber) {
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const addr = document.getElementById("custAddress").value.trim();
+
+      if (!name || !phone || !addr) {
+        alert("Details fill cheyyuka!");
+        return;
+      }
+
+      const message = `🛍️ *NEW ORDER - Lummo Store*%0A%0A` +
+        `*Product:* ${selectedProduct.name}%0A` +
+        `*Price:* ₹${selectedProduct.price}%0A%0A` +
+        `👤 *Customer Details:*%0A` +
+        `*Name:* ${name}%0A` +
+        `*Phone:* ${phone}%0A` +
+        `*Address:* ${addr}%0A%0A` +
+        `Please confirm my order!`;
+
+      window.open(`https://wa.me/${targetNumber}?text=${message}`, '_blank');
+      closeModal();
+    }
+
+    renderProducts();
+    renderReviews();
+  </script>
+</body>
+</html>
