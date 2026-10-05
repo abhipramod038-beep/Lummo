@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lummo Store | Trendy Deals</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .badge { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased pb-20">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-orange-500/20">L</div>
+        <div>
+          <h1 class="text-xl font-black tracking-tight text-gray-900 leading-none">Lummo<span class="text-orange-500">Store</span></h1>
+          <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-0.5">Best Deals Online</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="https://wa.me/918848346481?text=Hi%20Lummo%20Store,%20I%20have%20an%20inquiry" target="_blank" class="flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white px-2.5 py-1.5 rounded-full text-xs font-bold transition shadow-sm">
+          <i class="fab fa-whatsapp"></i> Chat 1
+        </a>
+        <a href="https://wa.me/919037106309?text=Hi%20Lummo%20Store,%20I%20have%20an%20inquiry" target="_blank" class="flex items-center gap-1 bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-full text-xs font-bold transition shadow-sm">
+          <i class="fab fa-whatsapp"></i> Chat 2
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <div class="max-w-6xl mx-auto px-4 mt-4">
+    <div class="rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 p-5 text-white shadow-lg relative overflow-hidden">
+      <div class="relative z-10">
+        <span class="inline-block bg-black/20 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full mb-2 uppercase tracking-wider">Free Delivery Available</span>
+        <h2 class="text-2xl font-black leading-tight">Trending Gadgets & Accessories</h2>
+        <p class="text-white/90 text-xs mt-1">Cash on Delivery & Direct WhatsApp Ordering Available!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Catalog -->
+  <main class="max-w-6xl mx-auto px-4 mt-6">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+        <span>🔥 Featured Products</span>
+      </h3>
+      <span class="text-xs text-gray-400">Verified Deals</span>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="productGrid">
+      <!-- Products loaded via JS -->
+    </div>
+  </main>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 hidden">
+    <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-md w-full p-6 shadow-2xl animate-fade-in max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 border-b pb-3">
+        <h3 class="font-bold text-lg text-gray-900">Complete Your Order</h3>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+      </div>
+      
+      <div class="bg-orange-50 p-3 rounded-xl mb-4 border border-orange-100 flex items-center gap-3">
+        <img id="modalProductImg" class="w-14 h-14 object-cover rounded-lg bg-white" src="" alt="Product">
+        <div>
+          <h4 id="modalProductName" class="text-sm font-bold text-gray-800 line-clamp-1"></h4>
+          <p id="modalProductPrice" class="text-orange-600 font-extrabold text-sm"></p>
+        </div>
+      </div>
+
+      <form id="orderForm" onsubmit="return false;" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Your Full Name</label>
+          <input type="text" id="custName" required placeholder="eg: Rahul M" class="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Phone Number</label>
+          <input type="tel" id="custPhone" required placeholder="eg: 9876543210" class="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Delivery Address & Pincode</label>
+          <textarea id="custAddress" required rows="2" placeholder="House name, City, Pincode" class="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+        </div>
+
+        <p class="text-xs font-bold text-gray-500 pt-2 text-center">Choose WhatsApp contact to place order:</p>
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="sendOrder('918848346481')" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2.5 px-2 rounded-xl shadow flex items-center justify-center gap-1.5 text-xs transition">
+            <i class="fab fa-whatsapp text-sm"></i> Order via Line 1
+          </button>
+          <button type="button" onclick="sendOrder('919037106309')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-2 rounded-xl shadow flex items-center justify-center gap-1.5 text-xs transition">
+            <i class="fab fa-whatsapp text-sm"></i> Order via Line 2
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: "Magnetic Wireless Earbuds TWS",
+        price: "499",
+        originalPrice: "1499",
+        image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 2,
+        name: "Smart Watch with HD Display",
+        price: "899",
+        originalPrice: "2499",
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 3,
+        name: "RGB Portable Bluetooth Speaker",
+        price: "599",
+        originalPrice: "1299",
+        image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&auto=format&fit=crop&q=60"
+      },
+      {
+        id: 4,
+        name: "Neckband Headset Extra Bass",
+        price: "399",
+        originalPrice: "999",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60"
+      }
+    ];
+
+    let selectedProduct = null;
+
+    function renderProducts() {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = products.map(prod => `
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
+          <div class="relative bg-gray-50 aspect-square">
+            <img src="${prod.image}" alt="${prod.name}" class="w-full h-full object-cover">
+            <span class="absolute top-2 left-2 bg-rose-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">SALE</span>
+          </div>
+          <div class="p-3 flex-1 flex flex-col justify-between">
+            <div>
+              <h4 class="font-bold text-xs sm:text-sm text-gray-800 line-clamp-2">${prod.name}</h4>
+              <div class="flex items-baseline gap-1.5 mt-2">
+                <span class="text-base font-extrabold text-orange-600">₹${prod.price}</span>
+                <span class="text-xs text-gray-400 line-through">₹${prod.originalPrice}</span>
+              </div>
+            </div>
+            <button onclick="openModal(${prod.id})" class="w-full mt-3 bg-orange-500 hover:bg-orange-600 active:scale-95 text-white text-xs font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 transition">
+              <i class="fas fa-shopping-bag"></i> Order Now
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openModal(id) {
+      selectedProduct = products.find(p => p.id === id);
+      document.getElementById("modalProductName").innerText = selectedProduct.name;
+      document.getElementById("modalProductPrice").innerText = "₹" + selectedProduct.price;
+      document.getElementById("modalProductImg").src = selectedProduct.image;
+      document.getElementById("checkoutModal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("checkoutModal").classList.add("hidden");
+    }
+
+    function sendOrder(targetNumber) {
+      const name = document.getElementById("custName").value.trim();
+      const phone = document.getElementById("custPhone").value.trim();
+      const addr = document.getElementById("custAddress").value.trim();
+
+      if (!name || !phone || !addr) {
+        alert("Please fill Name, Phone, and Address before ordering.");
+        return;
+      }
+
+      const message = `🛍️ *NEW ORDER - Lummo Store*%0A%0A` +
+        `*Product:* ${selectedProduct.name}%0A` +
+        `*Price:* ₹${selectedProduct.price}%0A%0A` +
+        `👤 *Customer Details:*%0A` +
+        `*Name:* ${name}%0A` +
+        `*Phone:* ${phone}%0A` +
+        `*Address:* ${addr}%0A%0A` +
+        `Please confirm my order!`;
+
+      const whatsappURL = `https://wa.me/${targetNumber}?text=${message}`;
+      window.open(whatsappURL, '_blank');
+      closeModal();
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
